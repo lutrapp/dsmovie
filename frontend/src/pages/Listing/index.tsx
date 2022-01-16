@@ -9,19 +9,40 @@ import { MoviePage } from "types/movie";
 function Listing() {
 
     const [pageNumber, setPageNumber] = useState(0);
+    const [page, setPage] = useState<MoviePage>(
+        {
+            content: [],
+            last: true,
+            totalPages: 0,
+            totalElements: 0,
+            size: 12,
+            number: 0,
+            first: true,
+            numberOfElements: 0,
+            empty: true
+        }
+    );
 
-    // a função aqui dentro só será executada quando carregar o componente
-    useEffect(()=>{
-        axios.get(`${BASE_URL}/movies?size=12&page=1`)
+    useEffect(() => {
+        axios.get(`${BASE_URL}/movies?size=12&page=${pageNumber}&sort=title`) //pode ordenar por titul, id  etc
         .then(response => {
             const data = response.data as MoviePage; //moviePage foi definido em types
-            setPageNumber(data.number);
-            //console.log(data);
-    }, []);
+            setPage(data);
+            //console.log(response.data);
+            //setPageNumber(data.number);
+        });
 
+    }, [pageNumber]);
+    // significa que o useEffect depende do pageNumber, quando ele mudar, será renderizado novamente
+
+    const movie = {
+        id: 1,
+        image: "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/jBJWaqoSCiARWtfV0GlqHrcdidd.jpg",
+        title: "The Witcher",
+        count: 2,
+        score: 4.5
+    };
     
-    
-    });
 
     return (
         <>
@@ -29,25 +50,16 @@ function Listing() {
         <Pagination />
         <div className="container">
             <div className="row">
-                <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
-                    <MovieCard />
+                {page.content.map(movie => {
+                    return (
+                        <div key={movie.id} className="col-sm-6 col-lg-4 col-xl-3 mb-3">
+                    <MovieCard movie={movie} />
                 </div>
-            
-                <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
-                    <MovieCard />
-                </div>
-         
-                <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
-                    <MovieCard />
-                </div>
+                    )
+                })}
 
-                <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
-                    <MovieCard />
-                </div>
-           
-                <div className="col-sm-6 col-lg-4 col-xl-3 mb-3">
-                    <MovieCard />
-                </div>
+                
+            
             </div>
 
         </div>
