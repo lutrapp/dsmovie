@@ -25,7 +25,7 @@ function FormCard( { movieId } : Props ) {
         })
     }, [movieId]); //caso essa dependencia nao seja colocada, a requsicao seria chamada varias vezes
 
-
+    //alerta para email inválido
     const notify = () => toast("Informe um email válido!");
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
