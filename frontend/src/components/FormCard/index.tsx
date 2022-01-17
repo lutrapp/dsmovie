@@ -5,6 +5,8 @@ import { Movie } from 'types/movie';
 import { BASE_URL } from 'utils/requests';
 import { validateEmail } from 'utils/validate';
 import './styles.css';
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 type Props = {
     movieId: string;
@@ -22,6 +24,9 @@ function FormCard( { movieId } : Props ) {
             setMovie(response.data);
         })
     }, [movieId]); //caso essa dependencia nao seja colocada, a requsicao seria chamada varias vezes
+
+
+    const notify = () => toast("Informe um email válido!");
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
@@ -33,6 +38,7 @@ function FormCard( { movieId } : Props ) {
         // console.log(email, score);
 
         if(!validateEmail(email)){
+            notify();
             return;
         }
 
@@ -56,6 +62,7 @@ function FormCard( { movieId } : Props ) {
 
     return (
         <div className="dsmovie-form-container">
+            <ToastContainer />
     <img className="dsmovie-movie-card-image" src={movie?.image} alt={movie?.title} />
     <div className="dsmovie-card-bottom-container">
         <h3>{movie?.title}</h3>
