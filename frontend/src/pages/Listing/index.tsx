@@ -35,19 +35,23 @@ function Listing() {
     }, [pageNumber]);
     // significa que o useEffect depende do pageNumber, quando ele mudar, será renderizado novamente
 
-    const movie = {
-        id: 1,
-        image: "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/jBJWaqoSCiARWtfV0GlqHrcdidd.jpg",
-        title: "The Witcher",
-        count: 2,
-        score: 4.5
-    };
+    //a seguir o que havia sido mockado antes
+    // const movie = {
+    //     id: 1,
+    //     image: "https://www.themoviedb.org/t/p/w533_and_h300_bestv2/jBJWaqoSCiARWtfV0GlqHrcdidd.jpg",
+    //     title: "The Witcher",
+    //     count: 2,
+    //     score: 4.5
+    // };
     
+    const handlePageChange = (newPageNumber : number) => {
+        setPageNumber(newPageNumber);
+    }
 
     return (
         <>
-        <p>{pageNumber}</p>
-        <Pagination />
+        {/* <p>{pageNumber}</p> */}
+        <Pagination page={page} onChange={handlePageChange}/>
         <div className="container">
             <div className="row">
                 {page.content.map(movie => {
